@@ -1,0 +1,98 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# SpectralVI
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+**SpectralVI** is an R package designed to unlock the full potential of spectral data analysis. It empowers researchers, scientists, and data enthusiasts to harness the power of spectral information for a wide range of applications, from remote sensing to environmental monitoring.
+
+## Key Features
+
+- Analyze and visualize spectral data with ease.
+- Perform advanced remote sensing tasks, such as vegetation index calculations and land cover classification.
+- Access a rich set of tools for spectral data pre-processing and post-processing.
+- Seamlessly integrate spectral analysis into your data science and geospatial workflows.
+
+Whether you're an ecologist, agronomist, or simply passionate about exploring the world through spectral data, SpectralVI provides the tools and capabilities you need to make sense of the complex spectral world.
+
+## Installation
+
+You can install the development version of SpectralVI from [GitHub](https://github.com/) with:
+
+``` r
+# Install devtools if not already installed
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+# Install SpectralVI
+devtools::install_github("velasquez-vasconez/SpectralVI")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example, warning= F, message=F}
+library(SpectralVI)
+set.seed(1234)
+# Generate random data
+n <- 100
+Yield <- rnorm(n, mean = 50, sd = 10)
+Height <- rnorm(n, mean = 160, sd = 20)
+Diameter <- rnorm(n, mean = 40, sd = 5)
+
+# Define the response column name
+response_col <- "Yield"
+
+# Define predictor columns
+predictors <- c("Height", "Diameter")
+
+# Create a data frame
+df <- data.frame(Yield, Height, Diameter)
+
+# Define a list of indices
+indices <- c("osavi", "ndvi", "clg", "ctvi", "dvi", "gndvi", "nrvi", "rvi",
+    "savi", "sr", "ndwi", "tvi", "msavi", "mcari")
+
+# Add columns for indices with random data
+for (index in indices) {
+  df[[index]] <- runif(n, min = 0, max = 1)
+}
+
+# Set the percentage of data for training
+train_percent <- 0.7
+
+# Define the hyperparameter tuning grid to evaluate Random Forest Model
+tune_grid <- expand.grid(mtry = c(2, 4, 6, 8))
+
+# Results: Evaluate the Random Forest Model with Multiple Indices
+evaluate_indices_rf(df, response_col, predictors, indices, train_percent, tune_grid)
+
+```
+
+## Contributing
+
+We welcome contributions from the community. If you find a bug, have a feature request, or want to contribute to the development of SpectralVI, please follow these steps:
+
+1. Check if an issue already exists in the [issue tracker](https://github.com/pavelasquezvasconez/SpectralVI/issues). If not, open a new issue, providing as much detail as possible.
+
+2. If you're interested in contributing code, please fork the repository and submit a pull request. Make sure to follow our coding guidelines and maintain clear commit messages.
+
+3. Help us improve the documentation by fixing typos, improving explanations, or adding examples.
+
+Your contributions are greatly appreciated.
